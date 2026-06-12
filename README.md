@@ -29,9 +29,8 @@ Les fichiers statiques générés se trouvent dans `dist/`.
 | Variable | Description |
 | --- | --- |
 | `VITE_SUPABASE_FUNCTIONS_URL` | URL de base des Functions Supabase (sans slash final). |
-| `VITE_API_AUTH_TOKEN` | Token envoyé dans l'en-tête `x-auth-token`. |
 
-> Le token est embarqué dans le bundle (limite client-side). À ne pas utiliser tel quel hors contexte interne.
+> Le token d'authentification (en-tête `x-auth-token`) est saisi par l'utilisateur au lancement de l'application et persisté dans le `localStorage` du navigateur (clé `api_auth_token`).
 
 ## Caméra et HTTPS
 

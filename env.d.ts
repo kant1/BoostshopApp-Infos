@@ -2,7 +2,6 @@
 
 interface ImportMetaEnv {
   readonly VITE_SUPABASE_FUNCTIONS_URL: string
-  readonly VITE_API_AUTH_TOKEN: string
 }
 
 interface ImportMeta {
