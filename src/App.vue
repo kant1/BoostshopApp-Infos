@@ -3,7 +3,6 @@ import { computed, ref } from 'vue'
 import QrScanner from '@/components/QrScanner.vue'
 import UserHeader from '@/components/UserHeader.vue'
 import PointsBalance from '@/components/PointsBalance.vue'
-import AdvantagesList from '@/components/AdvantagesList.vue'
 import InvoicesTable from '@/components/InvoicesTable.vue'
 import { useUserInfos } from '@/composables/useUserInfos'
 
@@ -59,7 +58,6 @@ function rescan() {
     <div v-else-if="view === 'result' && data" class="mx-auto max-w-3xl space-y-4 px-4 py-6 pb-24">
       <UserHeader :user="data.user" />
       <PointsBalance :balance="data.points_balance" />
-      <AdvantagesList :advantages="data.advantages" />
       <InvoicesTable :invoices="data.invoices" />
 
       <button
