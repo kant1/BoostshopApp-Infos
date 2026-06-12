@@ -4,6 +4,7 @@ import QrScanner from '@/components/QrScanner.vue'
 import TokenPrompt from '@/components/TokenPrompt.vue'
 import UserHeader from '@/components/UserHeader.vue'
 import PointsBalance from '@/components/PointsBalance.vue'
+import RedeemActions from '@/components/RedeemActions.vue'
 import InvoicesTable from '@/components/InvoicesTable.vue'
 import { useUserInfos } from '@/composables/useUserInfos'
 import { useAuthToken } from '@/composables/useAuthToken'
@@ -100,6 +101,13 @@ function changeToken() {
     <div v-else-if="view === 'result' && data" class="mx-auto max-w-3xl space-y-4 px-4 py-6 pb-24">
       <UserHeader :user="data.user" />
       <PointsBalance :balance="data.points_balance" />
+      <RedeemActions
+        v-if="token"
+        :user-id="data.user.id"
+        :token="token"
+        :balance="data.points_balance"
+        @redeemed="() => token && load(data!.user.id, token)"
+      />
       <InvoicesTable :invoices="data.invoices" />
 
       <button
