@@ -11,11 +11,17 @@ export class ApiError extends Error {
   }
 }
 
-export async function fetchUserInfos(userId: string, token: string): Promise<UserInfosResponse> {
+/** Identification de l'utilisateur cible : par UUID (QR code) ou par e-mail. */
+export type UserLookup = { userId: string } | { email: string }
+
+export async function fetchUserInfos(lookup: UserLookup, token: string): Promise<UserInfosResponse> {
   if (!BASE) throw new Error('VITE_SUPABASE_FUNCTIONS_URL non défini')
   if (!token) throw new Error("Token d'authentification non défini")
 
-  const url = `${BASE}/user-infos?userId=${encodeURIComponent(userId)}`
+  const params = new URLSearchParams(
+    'userId' in lookup ? { userId: lookup.userId } : { email: lookup.email },
+  )
+  const url = `${BASE}/user-infos?${params.toString()}`
   const res = await fetch(url, {
     headers: { 'x-auth-token': token },
   })

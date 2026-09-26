@@ -54,7 +54,7 @@ defineExpose({ rescan })
 </script>
 
 <template>
-  <div class="flex h-full w-full flex-col items-center justify-center gap-4 p-4">
+  <div class="flex w-full flex-col items-center justify-center gap-4 p-4 pt-14">
     <div class="text-center">
       <h1 class="text-2xl font-bold">Scanner un QR code</h1>
       <p class="mt-1 text-sm text-zinc-600 dark:text-zinc-400">

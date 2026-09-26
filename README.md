@@ -1,6 +1,6 @@
 # BoostshopApp-Infos
 
-Application web statique (Vue 3 + TypeScript + Vite) qui scanne un QR code utilisateur via la webcam et affiche les informations renvoyées par l'edge function Supabase `user-infos`.
+Application web statique (Vue 3 + TypeScript + Vite) qui identifie un utilisateur — par scan de son QR code via la webcam ou par saisie de son adresse e-mail — et affiche les informations renvoyées par l'edge function Supabase `user-infos`.
 
 ## Stack
 - Vue 3 + TypeScript + Vite
@@ -40,6 +40,9 @@ L'accès à la webcam nécessite un **contexte sécurisé** :
 
 Pour tester depuis un mobile sur le réseau local, lancer Vite avec HTTPS (ex. via [`@vitejs/plugin-basic-ssl`](https://github.com/vitejs/vite-plugin-basic-ssl)) ou un tunnel (ngrok, cloudflared).
 
-## QR code attendu
+## Identification de l'utilisateur
 
-Le contenu du QR doit être un **UUID** correspondant à `auth.users.id`. Toute autre valeur est rejetée côté client avant l'appel API.
+Deux modes sont proposés sur l'écran d'accueil :
+
+- **QR code** : le contenu du QR doit être un **UUID** correspondant à `auth.users.id`. Toute autre valeur est rejetée côté client avant l'appel API (`?userId=...`).
+- **Adresse e-mail** : saisie manuelle sous le scanner. L'e-mail est transmis à l'edge function (`?email=...`) qui le résout vers un `auth.users.id` (insensible à la casse) via la RPC `get_user_id_by_email`. Un e-mail inconnu renvoie un 404.

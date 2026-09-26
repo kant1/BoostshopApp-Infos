@@ -42,3 +42,10 @@ const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
 export function isUuid(value: string): boolean {
   return UUID_RE.test(value.trim())
 }
+
+// Validation volontairement souple : un `@` entouré de caractères non blancs.
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+export function isEmail(value: string): boolean {
+  return EMAIL_RE.test(value.trim())
+}

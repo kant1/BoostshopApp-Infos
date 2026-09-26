@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import QrScanner from '@/components/QrScanner.vue'
+import EmailLookup from '@/components/EmailLookup.vue'
 import TokenPrompt from '@/components/TokenPrompt.vue'
 import UserHeader from '@/components/UserHeader.vue'
 import PointsBalance from '@/components/PointsBalance.vue'
@@ -29,7 +30,13 @@ const isAuthError = computed(
 async function onDetect(userId: string) {
   scanning.value = false
   if (!token.value) return
-  await load(userId, token.value)
+  await load({ userId }, token.value)
+}
+
+async function onEmailSubmit(email: string) {
+  scanning.value = false
+  if (!token.value) return
+  await load({ email }, token.value)
 }
 
 function rescan() {
@@ -54,8 +61,11 @@ function changeToken() {
   <main class="min-h-full">
     <TokenPrompt v-if="view === 'token'" :initial="token" @submit="onTokenSubmit" />
 
-    <div v-else-if="view === 'scanner'" class="relative h-screen">
+    <div v-else-if="view === 'scanner'" class="relative flex min-h-screen flex-col">
       <QrScanner @detect="onDetect" />
+      <div class="flex w-full justify-center px-4 pb-8">
+        <EmailLookup @submit="onEmailSubmit" />
+      </div>
       <button
         type="button"
         class="absolute right-4 top-4 z-10 rounded-full bg-white/90 px-3 py-1.5 text-xs font-medium text-zinc-700 shadow hover:bg-white dark:bg-zinc-900/90 dark:text-zinc-200 dark:hover:bg-zinc-900"
@@ -106,7 +116,7 @@ function changeToken() {
         :user-id="data.user.id"
         :token="token"
         :balance="data.points_balance"
-        @redeemed="() => token && load(data!.user.id, token)"
+        @redeemed="() => token && load({ userId: data!.user.id }, token)"
       />
       <InvoicesTable :invoices="data.invoices" />
 
@@ -115,7 +125,7 @@ function changeToken() {
         class="fixed bottom-5 left-1/2 -translate-x-1/2 rounded-full bg-sky-600 px-6 py-3 text-sm font-semibold text-white shadow-lg hover:bg-sky-700"
         @click="rescan"
       >
-        Scanner un autre
+        Nouvelle recherche
       </button>
     </div>
   </main>
