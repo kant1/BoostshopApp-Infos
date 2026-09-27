@@ -3,7 +3,7 @@ import { computed, ref } from 'vue'
 import { ApiError, redeemPoints } from '@/services/api'
 
 const props = defineProps<{ userId: string; token: string; balance: number }>()
-const emit = defineEmits<{ (e: 'redeemed', newBalance: number): void }>()
+const emit = defineEmits<{ (e: 'redeemed'): void }>()
 
 interface RewardOption {
   key: string
@@ -52,9 +52,9 @@ async function onClick(opt: RewardOption) {
 
   pendingKey.value = opt.key
   try {
-    const res = await redeemPoints(props.userId, props.token, opt.key, amount!)
+    await redeemPoints(props.userId, props.token, opt.key, amount!)
     success.value = `${opt.label} validé (-${amount!.toLocaleString('fr-FR')} pts).`
-    emit('redeemed', res.points_balance)
+    emit('redeemed')
     if (opt.cost === null) customAmount.value = null
   } catch (e) {
     error.value =

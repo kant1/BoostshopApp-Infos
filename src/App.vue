@@ -6,6 +6,7 @@ import TokenPrompt from '@/components/TokenPrompt.vue'
 import UserHeader from '@/components/UserHeader.vue'
 import PointsBalance from '@/components/PointsBalance.vue'
 import RedeemActions from '@/components/RedeemActions.vue'
+import CreditActions from '@/components/CreditActions.vue'
 import InvoicesTable from '@/components/InvoicesTable.vue'
 import { useUserInfos } from '@/composables/useUserInfos'
 import { useAuthToken } from '@/composables/useAuthToken'
@@ -37,6 +38,12 @@ async function onEmailSubmit(email: string) {
   scanning.value = false
   if (!token.value) return
   await load({ email }, token.value)
+}
+
+/** Recharge les infos de l'utilisateur affiché (après un ajustement de points). */
+async function reloadCurrentUser() {
+  if (!token.value || !data.value) return
+  await load({ userId: data.value.user.id }, token.value)
 }
 
 function rescan() {
@@ -116,7 +123,13 @@ function changeToken() {
         :user-id="data.user.id"
         :token="token"
         :balance="data.points_balance"
-        @redeemed="() => token && load({ userId: data!.user.id }, token)"
+        @redeemed="reloadCurrentUser"
+      />
+      <CreditActions
+        v-if="token"
+        :user-id="data.user.id"
+        :token="token"
+        @credited="reloadCurrentUser"
       />
       <InvoicesTable :invoices="data.invoices" />
 

@@ -2,6 +2,8 @@
 
 Application web statique (Vue 3 + TypeScript + Vite) qui identifie un utilisateur — par scan de son QR code via la webcam ou par saisie de son adresse e-mail — et affiche les informations renvoyées par l'edge function Supabase `user-infos`.
 
+Depuis la fiche utilisateur, il est possible d'**utiliser des points** (récompenses) ou de **créditer des points** sans facture liée (geste commercial, bonus, correction). Les deux passent par l'edge function `decrement-points` avec le paramètre `operation` (`decrement` ou `increment`).
+
 ## Stack
 - Vue 3 + TypeScript + Vite
 - TailwindCSS
